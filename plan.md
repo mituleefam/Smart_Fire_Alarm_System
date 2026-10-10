@@ -15,11 +15,7 @@ Thay đổi so với bản 1: web làm hoàn toàn bằng **Node-RED** (bỏ #10
 | **Nâng cao** | #1 Cảm biến lửa → Buzzer (1.5) | #2 DHT11 → Web (1.5) |
 | | #3 Web → Servo mở cửa thoát hiểm (1.5) | #4 Lưu dữ liệu lên Cloud theo thời gian (1.5) |
 | | #5 Lấy dữ liệu Cloud vẽ biểu đồ (1.5) | #11 AI/DS tự xây dựng (2.0) |
-| | #6 Thông báo cháy về điện thoại (1.0) | |
-| | #9 Đăng ký/đăng nhập, tài khoản trong DB (1.5) | |
-| **Tổng nâng cao** | **7.0** (dư 3.0) | **5.0** (dư 1.0) |
-
-Điểm tối đa vẫn đủ 10: Căn bản 4 + Làm việc nhóm 1 + Nâng cao 4 (mỗi người) + Báo cáo 1, (+1 nếu sản phẩm thật), nhân hệ số hiểu bài K.
+| | #9 Đăng ký/đăng nhập, tài khoản trong DB (1.5) | #6 Thông báo cháy về điện thoại (1.0) |
 
 
 ## 2. Thiết bị Input / Output (giữ nguyên)
@@ -141,10 +137,6 @@ Chỉ dùng chân ADC1 (GPIO32–39) cho analog vì ADC2 không chạy khi bật
 - Có nút "Tải lại" để thấy rõ dữ liệu được lấy từ Atlas.
 - Phụ thuộc #4 của Thu: thống nhất cấu trúc document ngay tuần đầu.
 
-**#6: Thông báo cháy về điện thoại (1.0)**
-- Nhận `smoke` và `dht` → node `function` so ngưỡng (khói ở mức DANGER hoặc nhiệt độ ≥ 50°C) → node `delay` ở chế độ **rate limit** (1 tin / 60 giây, chống spam) → Telegram sender.
-- Tạo bot qua @BotFather, lấy token và chat_id.
-
 **#9: Đăng ký / đăng nhập, tài khoản lưu trong MongoDB (1.5)**
 Đây là phần khó nhất trên Node-RED, vì Dashboard **không có sẵn chức năng đăng ký tài khoản**. Tính năng `adminAuth`/`httpNodeAuth` trong `settings.js` chỉ là mật khẩu cố định, **không** tính là đăng ký. Cách làm:
 - Trang "Đăng ký": `ui-form` (username, password) → `function` băm mật khẩu bằng module `crypto` có sẵn của Node.js (`scrypt` hoặc `pbkdf2` + salt) → `mongodb out` insert vào collection `users`. Kiểm tra trùng username trước khi thêm.
@@ -166,6 +158,10 @@ Chỉ dùng chân ADC1 (GPIO32–39) cho analog vì ADC2 không chạy khi bật
 - Mỗi bản tin `smoke`/`dht` → `function` thêm `ts: new Date()` → `mongodb out` (insert) vào collection `sensor_logs`.
 - Mỗi lần đọc là **một bản ghi mới**, không ghi đè. Cấu trúc document: `{ ts, type: "smoke"|"dht", raw, level, t, h }`.
 - Vào giao diện Atlas để chỉ cho thầy thấy dữ liệu tăng dần theo thời gian.
+
+**#6: Thông báo cháy về điện thoại (1.0)**
+- Nhận `smoke` và `dht` → node `function` so ngưỡng (khói ở mức DANGER hoặc nhiệt độ ≥ 50°C) → node `delay` ở chế độ **rate limit** (1 tin / 60 giây, chống spam) → Telegram sender.
+- Tạo bot qua @BotFather, lấy token và chat_id.
 
 **#11: AI/DS tự xây dựng (2.0)**
 Tự viết thuật toán trong node `function` (JavaScript), không gọi dịch vụ ngoài:
