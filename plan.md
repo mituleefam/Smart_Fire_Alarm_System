@@ -18,7 +18,7 @@ Thay đổi so với bản 1: web làm hoàn toàn bằng **Node-RED** (bỏ #10
 | | #9 Đăng ký/đăng nhập, tài khoản trong DB (1.5) | #6 Thông báo cháy về điện thoại (1.0) |
 
 
-## 2. Thiết bị Input / Output (giữ nguyên)
+## 2. Thiết bị Input / Output
 
 | Thiết bị | Loại | Yêu cầu | Người | Vai trò |
 |---|---|---|---|---|
@@ -35,7 +35,7 @@ Thay đổi so với bản 1: web làm hoàn toàn bằng **Node-RED** (bỏ #10
 
 ---
 
-## 4. Danh sách mua hàng (giữ nguyên, ≈ 350–400k)
+## 4. Danh sách mua hàng
 
 | Linh kiện | SL | Giá ước tính |
 |---|---|---|
