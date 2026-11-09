@@ -89,7 +89,7 @@ Chia flow Node-RED thành nhiều **tab**, mỗi tab có một người phụ tr
 | `AI` | Thu | Dự đoán, phát hiện bất thường (#11) |
 | `Điều khiển` | Bảo | Nút bơm, slider servo → mqtt out |
 | `Lịch sử` | Bảo | Truy vấn Atlas → biểu đồ (#5) |
-| `Cảnh báo` | Bảo | Ngưỡng → Telegram (#6) |
+| `Cảnh báo` | Thu | Ngưỡng → Telegram (#6) |
 | `Tài khoản` | Bảo | Đăng ký, đăng nhập (#9) |
 
 Chương trình ESP32 cũng là một project chung: Thu viết phần đọc MQ-2, DHT11 và publish; Bảo viết phần subscribe lệnh relay, servo và phần cảm biến lửa → buzzer.
@@ -182,7 +182,7 @@ Tự viết thuật toán trong node `function` (JavaScript), không gọi dịc
 | 2 | Relay/bơm từ web (căn bản 2); **làm thử #9** | Publish MQ-2, DHT lên broker; gauge trên web (căn bản 1, #2) | **Mốc 1: 2 luồng căn bản chạy qua Internet** |
 | 3 | Servo (#3); hoàn thiện #9 | Lưu Atlas theo thời gian (#4) | Ghép code ESP thành một chương trình |
 | 4 | Biểu đồ từ Atlas (#5) | Hồi quy tuyến tính, z-score (#11) | |
-| 5 | Telegram (#6) | Hoàn thiện #11 (+ #8 nếu làm) | **Mốc 2: đủ nâng cao** |
+| 5 | Hoàn thiện #5, #9 | Telegram (#6); hoàn thiện #11 | **Mốc 2: đủ nâng cao** |
 | 6 | Đóng hộp, đi dây | Đóng hộp, kiểm tra nguồn | Export `flows.json`, quay video demo, viết báo cáo |
 | 7 | Luyện vấn đáp chéo | Luyện vấn đáp chéo | Nộp báo cáo **sớm ít nhất 1 ngày** |
 
@@ -212,12 +212,12 @@ Chuẩn bị sẵn video demo phòng khi mạng phòng thi chặn MQTT.
 - Từ lúc bấm nút trên web đến lúc bơm chạy, `msg` đi qua những node nào? Web biết bơm đã bật nhờ đâu (ack)?
 - Biểu đồ lấy dữ liệu từ đâu, câu truy vấn MongoDB viết thế nào?
 - Mật khẩu được lưu thế nào, vì sao phải băm, salt là gì? Làm sao chặn người chưa đăng nhập?
-- Chống spam Telegram bằng cách nào?
 
 **Thu:**
 - MQ-2 hoạt động theo nguyên lý gì, vì sao phải nung nóng và chia áp? ADC 12-bit (0–4095) là gì?
 - DHT11 giao tiếp 1 dây thế nào?
 - Dữ liệu được ghi vào Atlas ở node nào, cấu trúc document ra sao? Vì sao đây là "lưu theo thời gian"?
+- Chống spam Telegram bằng cách nào?
 - Hồi quy tuyến tính tính hệ số a, b thế nào? Z-score là gì, vì sao chọn ngưỡng 3?
 
 Mỗi người phải **mở flow Node-RED và giải thích từng node trong tab của mình**.

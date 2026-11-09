@@ -1,0 +1,14 @@
+# Mật khẩu WiFi, MQTT: mỗi người tự tạo từ secrets.example.h
+secrets.h
+
+# Node-RED: file chứa mật khẩu broker, Atlas (chỉ commit flows.json)
+flows_cred.json
+.flows*.backup
+.config.*
+node_modules/
+
+# File rác của hệ điều hành và editor
+Thumbs.db
+desktop.ini
+.DS_Store
+.vscode/
