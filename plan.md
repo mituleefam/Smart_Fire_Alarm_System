@@ -1,10 +1,4 @@
-# Kế hoạch đồ án cuối kỳ: Hệ thống báo cháy ESP32 (bản 2, web bằng Node-RED)
-
-Căn cứ: *Quy định đồ án cuối kỳ, Vật lý cho CNTT, HK1/2026-2027*.
-Hai thành viên: **Bảo** và **Thu**.
-
-Thay đổi so với bản 1: web làm hoàn toàn bằng **Node-RED** (bỏ #10), chỉ làm nâng cao **1, 2, 3, 4, 5, 6, 9, 11**, phân công lại theo ý nhóm.
-
+# Kế hoạch đồ án cuối kỳ: Hệ thống báo cháy ESP32
 ---
 
 ## 1. Tóm tắt phân công và điểm

@@ -1,0 +1,407 @@
+% =====================================================================
+%  THUYẾT MINH DỰ ÁN – HỆ THỐNG BÁO CHÁY THÔNG MINH (Smart Fire)
+%  Overleaf: Menu > Compiler = XeLaTeX  (bắt buộc, để gõ tiếng Việt trực tiếp)
+%  Ảnh: tải lên thư mục figures/ đúng tên trong figures/README.md.
+%       Ảnh nào chưa có sẽ tự hiện khung placeholder nét đứt.
+% =====================================================================
+\documentclass[12pt,a4paper]{article}
+
+% ---------- Font & tiếng Việt ----------
+\usepackage{fontspec}
+\setmainfont{texgyretermes}[
+  Extension      = .otf,
+  UprightFont    = *-regular,
+  BoldFont       = *-bold,
+  ItalicFont     = *-italic,
+  BoldItalicFont = *-bolditalic,
+  Scale          = 1.0833]          % ~13pt, kiểu Times New Roman
+\usepackage{amsmath,amssymb}
+\usepackage{newunicodechar}
+\newunicodechar{→}{\ensuremath{\rightarrow}}
+\newunicodechar{≥}{\ensuremath{\geq}}
+\newunicodechar{Ω}{\ensuremath{\Omega}}
+
+% ---------- Trang ----------
+\usepackage[a4paper,top=2cm,bottom=2cm,left=3cm,right=2cm]{geometry}
+\usepackage{setspace}
+\setstretch{1.25}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+
+% ---------- Gói khác ----------
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{rotating}              % sidewaysfigure cho Hình 4
+\usepackage{array,makecell,multirow,xltabular}
+\usepackage[table]{xcolor}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{fancyhdr}
+\usepackage{tikz}
+\usepackage[hidelinks]{hyperref}
+
+% ---------- Màu ----------
+\definecolor{navy}{HTML}{1F3864}
+\definecolor{headbg}{HTML}{D9E2F3}
+\definecolor{groupbg}{HTML}{F2F2F2}
+
+% ---------- Tiêu đề mục: "1. GIỚI THIỆU", "1.1. Tổng quan..." ----------
+\titleformat{\section}{\normalfont\large\bfseries}{\thesection.}{0.5em}{}
+\titleformat{\subsection}{\normalfont\normalsize\bfseries}{\thesubsection.}{0.5em}{}
+\titlespacing*{\section}{0pt}{14pt}{6pt}
+\titlespacing*{\subsection}{0pt}{10pt}{4pt}
+
+% ---------- Chú thích: "Hình 1. ...", "Bảng 1. ..." ----------
+\renewcommand{\figurename}{Hình}
+\renewcommand{\tablename}{Bảng}
+\captionsetup{labelsep=period, justification=centering, font=normalsize, skip=6pt}
+\captionsetup[table]{position=below}
+\captionsetup[sub]{labelformat=parens, labelsep=space, font=normalsize}
+
+% ---------- Danh sách ----------
+\setlist[itemize]{leftmargin=1.2em, itemsep=2pt, topsep=2pt, label=\textbullet}
+
+% ---------- Bảng ----------
+\renewcommand{\arraystretch}{1.25}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}m{#1}}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}m{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcommand{\hd}[1]{\textbf{#1}}
+
+% ---------- Header/footer ----------
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+
+% ---------- Ảnh hoặc placeholder ----------
+% \hinh{chiều rộng tối đa}{chiều cao tối đa}{đường dẫn KHÔNG đuôi}
+% Tự tìm .png/.jpg/.jpeg/.pdf; không có thì vẽ khung placeholder.
+\newcommand{\phbox}[3]{%
+  {\setlength{\fboxsep}{0pt}\setlength{\fboxrule}{0.6pt}%
+   \fcolorbox{gray!70}{gray!8}{\parbox[c][#2][c]{#1}{\centering\small\color{gray!60!black}%
+     Chèn ảnh tại đây\\[2pt]\texttt{\detokenize{#3}}}}}}
+\newcommand{\phboxsmall}[3]{%
+  {\setlength{\fboxsep}{0pt}\setlength{\fboxrule}{0.5pt}%
+   \fcolorbox{gray!70}{gray!8}{\parbox[c][#2][c]{#1}{\centering\tiny\color{gray!60!black}%
+     \detokenize{#3}}}}}
+\newcommand{\hinhcore}[4]{%
+  \IfFileExists{#3.png}{\includegraphics[width=#1,height=#2,keepaspectratio]{#3.png}}{%
+  \IfFileExists{#3.jpg}{\includegraphics[width=#1,height=#2,keepaspectratio]{#3.jpg}}{%
+  \IfFileExists{#3.jpeg}{\includegraphics[width=#1,height=#2,keepaspectratio]{#3.jpeg}}{%
+  \IfFileExists{#3.pdf}{\includegraphics[width=#1,height=#2,keepaspectratio]{#3.pdf}}{%
+  #4{#1}{#2}{#3}}}}}}
+\newcommand{\hinh}[3]{\hinhcore{#1}{#2}{#3}{\phbox}}
+\newcommand{\hinhnho}[1]{\hinhcore{1.6cm}{1.6cm}{figures/linh-kien/#1}{\phboxsmall}}
+
+% =====================================================================
+\begin{document}
+
+% =========================== TRANG BÌA ===============================
+\begin{titlepage}
+\begin{tikzpicture}[remember picture,overlay]
+  \draw[navy,line width=2.2pt]
+    ([xshift=2.2cm,yshift=-1.4cm]current page.north west) rectangle
+    ([xshift=-1.4cm,yshift=1.4cm]current page.south east);
+  \draw[navy,line width=0.6pt]
+    ([xshift=2.4cm,yshift=-1.6cm]current page.north west) rectangle
+    ([xshift=-1.6cm,yshift=1.6cm]current page.south east);
+\end{tikzpicture}
+\centering
+\setstretch{1.15}
+
+\vspace*{-0.4cm}
+{\large\bfseries TRƯỜNG ĐẠI HỌC KHOA HỌC TỰ NHIÊN\par}
+{\large\bfseries KHOA CÔNG NGHỆ THÔNG TIN\par}
+\vspace{2pt}
+{\bfseries ———————————\par}
+\vspace{0.6cm}
+
+\hinh{3.6cm}{3.6cm}{figures/logo-hcmus}\par
+\vspace{0.6cm}
+
+{\large\bfseries MÔN HỌC: VẬT LÝ CHO CÔNG NGHỆ THÔNG TIN\par}
+\vspace{2pt}
+{Học kỳ 1, năm học 2026 – 2027\par}
+\vspace{1.0cm}
+
+{\fontsize{24}{30}\selectfont\bfseries\color{navy} THUYẾT MINH DỰ ÁN\par}
+\vspace{0.8cm}
+
+{\large\bfseries Đề tài:\par}
+\vspace{4pt}
+{\fontsize{20}{26}\selectfont\bfseries\color{navy} HỆ THỐNG BÁO CHÁY THÔNG MINH\par}
+{\fontsize{16}{22}\selectfont\bfseries\color{navy} SỬ DỤNG ESP32, MQTT VÀ NODE-RED\par}
+\vspace{4pt}
+{\large\itshape (Smart Fire Alarm System)\par}
+\vspace{1.0cm}
+
+{\large\textbf{Mã số nhóm: }20\par}
+\vspace{0.4cm}
+{\large\bfseries Danh sách thành viên:\par}
+\vspace{6pt}
+{\large
+\begin{tabular}{|C{1.4cm}|L{6.2cm}|C{3.2cm}|}
+\hline
+\rowcolor{headbg}\hd{STT} & \multicolumn{1}{c|}{\hd{Họ và tên}} & \hd{MSSV}\\ \hline
+1 & Lương Gia Bảo     & 24127330 \\ \hline
+2 & Lê Phạm Minh Thu  & 24127549 \\ \hline
+\end{tabular}\par}
+
+\vfill
+{\large Hồ Chí Minh, tháng 11 năm 2026\par}
+\vspace*{0.3cm}
+\end{titlepage}
+
+\setcounter{page}{1}
+
+% ============================ 1. GIỚI THIỆU ===========================
+\section{GIỚI THIỆU}
+
+\subsection{Tổng quan sản phẩm}
+
+Cháy nổ trong nhà ở, phòng trọ, cửa hàng và kho nhỏ thường được phát hiện muộn, nhất là khi không có người ở nhà hoặc vào ban đêm. Các thiết bị báo khói đơn lẻ chỉ hú còi tại chỗ, người ở xa không biết và cũng không thể can thiệp.
+
+\textbf{Smart Fire} là một hộp thiết bị đặt trong phòng, dùng vi điều khiển ESP32 kết nối WiFi. Thiết bị liên tục đo nồng độ khói/khí gas, nhiệt độ, độ ẩm và phát hiện ngọn lửa. Khi có lửa, còi hú ngay tại chỗ, kể cả khi mất mạng. Dữ liệu đo được gửi qua giao thức MQTT lên website quản lý xây dựng bằng Node-RED, nơi người dùng (sau khi đăng nhập) có thể theo dõi trực tiếp, bật bơm phun nước, mở cửa thoát hiểm, xem lại lịch sử lưu trên đám mây, nhận cảnh báo qua Telegram và xem mức nguy cơ cháy do thuật toán phân tích, dự đoán tự xây dựng tính ra.
+
+\textbf{Ý nghĩa thực tế:}
+\begin{itemize}
+  \item \textbf{Phát hiện sớm: }khói, gas rò rỉ và nhiệt độ được theo dõi liên tục; thuật toán dự đoán xu hướng giúp cảnh báo trước khi chỉ số vượt ngưỡng nguy hiểm.
+  \item \textbf{Cảnh báo cả khi vắng nhà: }thông báo được gửi thẳng đến điện thoại qua Telegram, đồng thời còi tại chỗ vẫn hoạt động khi mất Internet.
+  \item \textbf{Hành động từ xa: }người dùng bật bơm phun nước để hạn chế đám cháy nhỏ và mở cửa thoát hiểm ngay trên website.
+  \item \textbf{Lưu vết: }dữ liệu lịch sử trên đám mây giúp xem lại diễn biến, tìm nguyên nhân và kiểm tra hoạt động của thiết bị.
+  \item \textbf{Chi phí hợp lý, dễ lắp đặt: }toàn bộ linh kiện dao động quanh 380000 ngàn đồng (mục 3.1), dùng dịch vụ đám mây gói miễn phí, phù hợp hộ gia đình và phòng trọ.
+\end{itemize}
+
+\subsection{Kiến trúc hệ thống}
+
+Hệ thống gồm các thành phần sau (chi tiết luồng dữ liệu ở mục 2.3):
+\begin{itemize}
+  \item \textbf{Board ESP32-DevKitC-32D: }đọc cảm biến, điều khiển thiết bị output, lập trình bằng Arduino IDE
+  \item \textbf{MQTT broker EMQX Serverless (cloud): }trung gian truyền nhận dữ liệu giữa ESP32 và web qua Internet, kết nối mã hóa TLS cổng 8883.
+  \item \textbf{Website: }Node-RED làm back-end (xử lý luồng, logic, kết nối dịch vụ), giao diện front-end dùng Node-RED Dashboard 2.0.
+  \item \textbf{MongoDB Atlas }(gói Free)\textbf{: }lưu dữ liệu cảm biến theo thời gian và tài khoản người dùng.
+  \item \textbf{Discord: }gửi thông báo nhanh về điện thoại.
+\end{itemize}
+
+\subsection{Danh sách chức năng}
+
+{\small
+\begin{xltabular}{\textwidth}{|C{0.9cm}|L{3.3cm}|Y|C{2.1cm}|}
+\hline
+\rowcolor{headbg}\hd{ID} & \multicolumn{1}{c|}{\hd{Thiết bị / dịch vụ}} & \multicolumn{1}{c|}{\hd{Mô tả luồng xử lý}} & \hd{Yêu cầu (điểm)}\\ \hline
+\endfirsthead
+\hline
+\rowcolor{headbg}\hd{ID} & \multicolumn{1}{c|}{\hd{Thiết bị / dịch vụ}} & \multicolumn{1}{c|}{\hd{Mô tả luồng xử lý}} & \hd{Yêu cầu (điểm)}\\ \hline
+\endhead
+\hline
+\endfoot
+\endlastfoot
+\rowcolor{groupbg}\multicolumn{4}{|l|}{\textbf{Thông tin chức năng căn bản}}\\ \hline
+\textbf{1} & \textbf{Cảm biến khí MQ-2} (input, ngõ ra analog) &
+Luồng (1): \textbf{MQ-2 → ESP32 → MQTT → Node-RED (back-end) → Dashboard (front-end).} ESP32 đọc định kỳ nồng độ khói/khí gas từ MQ-2 và phân mức an toàn, cảnh báo, nguy hiểm. Dữ liệu được gửi qua giao thức MQTT lên web; web hiển thị mức khói và trạng thái cảnh báo theo thời gian thực. &
+Căn bản, luồng (1)\\ \hline
+\textbf{2} & \textbf{Module relay 1 kênh 5V} (output) đóng/cắt \textbf{máy bơm chìm mini 5V} &
+Luồng (2): \textbf{Dashboard → Node-RED → MQTT → ESP32 → relay → bơm.} Người dùng bấm nút “Phun nước” trên web; lệnh bật/tắt được gửi qua MQTT xuống ESP32, ESP32 đóng/ngắt relay để bơm phun nước. Sau đó ESP32 gửi lại trạng thái để web hiển thị bơm đang bật hay tắt. &
+Căn bản, luồng (2)\\ \hline
+\rowcolor{groupbg}\multicolumn{4}{|l|}{\textbf{Thông tin chức năng nâng cao}}\\ \hline
+\textbf{3} & \textbf{Cảm biến lửa hồng ngoại LM393} (input) và \textbf{còi buzzer active TMB12A05} (output) &
+\textbf{Cảm biến lửa → ESP32 → buzzer.} Cảm biến lửa phát hiện bức xạ hồng ngoại từ ngọn lửa và báo tín hiệu cho ESP32. ESP32 xử lý ngay trên board: khi có lửa thì bật còi báo động tại chỗ. Luồng này không đi qua mạng nên vẫn báo động được khi mất WiFi. &
+\#1 (1.5)\\ \hline
+\textbf{4} & \textbf{Cảm biến nhiệt độ, độ ẩm DHT11} (input) &
+\textbf{DHT11 → ESP32 → MQTT → Node-RED → Dashboard.} ESP32 đọc định kỳ nhiệt độ và độ ẩm từ DHT11, gửi qua MQTT lên web; web hiển thị hai giá trị này theo thời gian thực. &
+\#2 (1.5)\\ \hline
+\textbf{5} & \textbf{Động cơ servo SG90} (output) kéo mô hình cửa thoát hiểm &
+\textbf{Dashboard → Node-RED → MQTT → ESP32 → servo.} Người dùng bấm nút “Mở cửa” hoặc “Đóng cửa” trên web; lệnh được gửi qua MQTT xuống ESP32, ESP32 điều khiển servo mở hoặc đóng cửa thoát hiểm. &
+\#3 (1.5)\\ \hline
+\textbf{6} & \textbf{MongoDB Atlas} (gói Free) &
+\textbf{Node-RED → MongoDB Atlas (lưu theo thời gian).} Mỗi lần nhận dữ liệu cảm biến (khói, nhiệt độ, độ ẩm), web lưu thành một bản ghi mới kèm thời điểm đo lên MongoDB Atlas. Dữ liệu không bị ghi đè nên lưu lại được toàn bộ lịch sử theo thời gian. &
+\#4 (1.5)\\ \hline
+\textbf{7} & \textbf{MongoDB Atlas} + widget \textbf{ui-chart} của Dashboard 2.0 &
+\textbf{MongoDB Atlas → Node-RED → biểu đồ trên web.} Trang Lịch sử cho phép chọn khoảng thời gian cần xem; web lấy dữ liệu tương ứng từ MongoDB Atlas và vẽ biểu đồ đường (chart) cho khói và nhiệt độ. &
+\#5 (1.5)\\ \hline
+\textbf{8} & \textbf{Discord }(Webhook của một kênh Discord) &
+\textbf{Node-RED → Discord → điện thoại. }Node-RED so dữ liệu với ngưỡng: khói ở mức DANGER hoặc nhiệt độ ≥ 45 °C thì tạo tin cảnh báo kèm giá trị đo. Tin đi qua node delay giới hạn (VD: 1 tin/phút) (bỏ tin dồn, chống spam) rồi được gửi tới Discord Webhook của kênh cảnh báo. &
+\#6 (1.0)\\ \hline
+\textbf{9} & \textbf{Database: MongoDB Atlas} &
+\textbf{Đăng ký, đăng nhập để truy cập hệ thống. }Người dùng tạo tài khoản ở trang Đăng ký; tài khoản được lưu trong MongoDB Atlas, mật khẩu được mã hóa (băm) trước khi lưu. Chỉ khi đăng nhập đúng mới xem và điều khiển được hệ thống; chưa đăng nhập thì chỉ thấy trang Đăng nhập/Đăng ký. &
+\#9 (1.5)\\ \hline
+\textbf{10} & \textbf{AI/DS dự đoán nguy cơ cháy} &
+\textbf{MongoDB Atlas → thuật toán AI/DS → web. }Định kỳ lấy dữ liệu gần nhất từ MongoDB Atlas, nhóm tự cài đặt thuật toán thống kê để dự đoán xu hướng khói và nhiệt độ trong vài phút tới (hồi quy tuyến tính) và phát hiện giá trị tăng bất thường. Kết quả được tổng hợp thành mức nguy cơ cháy Thấp / Trung bình / Cao và hiển thị cùng đường dự đoán trên web. &
+\#11 (2.0)\\ \hline
+\caption{Danh sách chức năng của sản phẩm}\label{tab:chucnang}\\
+\end{xltabular}
+}
+
+% ============================ 2. THIẾT KẾ =============================
+\section{THIẾT KẾ}
+
+\subsection{Thiết kế hình dáng 3D của sản phẩm}
+
+Sản phẩm là một hộp nhựa kích thước dự kiến 24 × 16 × 10 cm, chia làm hai ngăn bằng vách ngăn kín nước: ngăn trái chứa bình nước và bơm chìm (ID 2); ngăn phải chứa mạch điện. Các cảm biến được đặt sát vỏ để tiếp xúc với không khí bên ngoài: MQ-2 nằm ngay dưới lưới thoáng ở mặt trên vì khói bốc lên cao (ID 1); DHT11 đặt cạnh khe thoáng ở mặt bên phải, cách xa lõi nung nóng của MQ-2 để không đo sai nhiệt độ (ID 4); mắt cảm biến lửa và lỗ còi ở mặt trước (ID 3); servo kéo mô hình cửa thoát hiểm ở góc dưới mặt trước (ID 5). Jack nguồn DC 5V và cổng micro-USB nạp chương trình ở mặt bên phải.
+
+\begin{figure}[H]
+  \centering
+  \hinh{\textwidth}{7.2cm}{figures/3d-ben-ngoai}
+  \caption{Thiết kế 3D: Hình dáng bên ngoài}
+  \label{fig:3d-ngoai}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \hinh{\textwidth}{9.1cm}{figures/3d-ben-trong-1}\par\vspace{4pt}
+  \hinh{\textwidth}{11.9cm}{figures/3d-ben-trong-2}
+  \caption{Thiết kế 3D: Bố trí bên trong}
+  \label{fig:3d-trong}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|C{1.2cm}|L{11.0cm}|C{2.4cm}|}
+\hline
+\rowcolor{headbg}\hd{Số} & \multicolumn{1}{c|}{\hd{Linh kiện và vị trí đặt}} & \hd{ID chức năng}\\ \hline
+\textbf{1}  & Cảm biến khí MQ-2, đặt ngay dưới lưới thoáng ở mặt trên & ID 1\\ \hline
+\textbf{2}  & Bơm chìm mini 5V trong bình nước (ngăn trái), ống dẫn lên vòi phun trên nắp & ID 2\\ \hline
+\textbf{3}  & Cảm biến lửa IR LM393 (mắt nhìn ra mặt trước) và lỗ thoát âm của còi & ID 3\\ \hline
+\textbf{4}  & Cảm biến DHT11 cạnh khe thoáng mặt bên phải, cách xa MQ-2 & ID 4\\ \hline
+\textbf{5}  & Servo SG90 kéo mô hình cửa thoát hiểm ở góc dưới mặt trước & ID 5\\ \hline
+\textbf{6}  & Module relay 5V cạnh vách ngăn, đóng/cắt nguồn bơm & ID 2\\ \hline
+\textbf{7}  & ESP32-DevKitC-32D trên breadboard 830 lỗ ở đáy ngăn mạch & ID 1–10\\ \hline
+\textbf{8}  & Cầu chia áp 10 kΩ / 20 kΩ cho chân AO của MQ-2 (trên breadboard) & ID 1\\ \hline
+\textbf{9}  & Còi buzzer active TMB12A05 sau lỗ thoát âm mặt trước & ID 3\\ \hline
+\textbf{10} & Jack DC 5.5×2.1 mm (adapter 5V 2A) và cổng micro-USB ở mặt bên phải & ID 1–5\\ \hline
+\end{tabular}
+\caption*{Bảng chú thích: vị trí linh kiện và ID chức năng tương ứng}
+\end{table}
+
+\subsection{Wireframe website quản lý sản phẩm}
+
+Website gồm 4 trang. Trước khi đăng nhập chỉ hiện trang (a); sau khi đăng nhập, thanh menu cho phép chuyển giữa các trang (b), (c), (d) và nút Đăng xuất. Khung đỏ nét đứt và nhãn đỏ đánh dấu vùng giao diện ứng với từng ID chức năng ở Bảng 1. Các ID 3, 6, 8 không có thành phần trên web vì được xử lý tại board ESP32, ghi lên Cloud ngầm hoặc gửi qua Telegram.
+
+% Một hình duy nhất (Hình 3) gồm 4 hình con (a)–(d), trải trên 2 trang.
+\begin{figure}[p]
+  \centering
+  \begin{subfigure}{\textwidth}
+    \centering
+    \hinh{\textwidth}{9.5cm}{figures/wireframe-a-dang-nhap}
+    \caption{Trang Đăng nhập / Đăng ký}
+    \label{fig:wf-a}
+  \end{subfigure}\par\vspace{10pt}
+  \begin{subfigure}{\textwidth}
+    \centering
+    \hinh{\textwidth}{11cm}{figures/wireframe-b-giam-sat}
+    \caption{Trang Giám sát và điều khiển}
+    \label{fig:wf-b}
+  \end{subfigure}
+  \caption{Wireframe website quản lý sản phẩm}
+  \label{fig:wireframe}
+\end{figure}
+
+\begin{figure}[p]
+  \ContinuedFloat
+  \centering
+  \begin{subfigure}{\textwidth}
+    \centering
+    \hinh{\textwidth}{11.5cm}{figures/wireframe-c-lich-su}
+    \caption{Trang Lịch sử}
+    \label{fig:wf-c}
+  \end{subfigure}\par\vspace{10pt}
+  \begin{subfigure}{\textwidth}
+    \centering
+    \hinh{\textwidth}{10cm}{figures/wireframe-d-ai-du-doan}
+    \caption{Trang AI dự đoán}
+    \label{fig:wf-d}
+  \end{subfigure}
+  \caption[]{Wireframe website quản lý sản phẩm (tiếp theo)}
+\end{figure}
+
+\subsection{Sơ đồ truyền và nhận dữ liệu giữa các thành phần trong hệ thống}
+
+Hình~\ref{fig:so-do} (trang sau) gộp toàn bộ luồng xử lý ở mục 1 vào một sơ đồ. Mỗi màu mũi tên là một ID chức năng; nhãn trên mũi tên ghi dữ liệu truyền đi: chân GPIO, topic MQTT kèm payload JSON, thao tác với database. Nét đứt là luồng phản hồi/xác nhận. Tất cả topic có tiền tố nhomXX/ (nhomXX là mã nhóm), ví dụ nhomXX/fire/smoke.
+
+% Trang ngang riêng, ảnh lấp đầy trang (sơ đồ rộng).
+\begin{sidewaysfigure}
+  \centering
+  \hinh{\textheight}{0.86\textwidth}{figures/so-do-truyen-nhan-du-lieu}
+  \caption{Sơ đồ truyền và nhận dữ liệu của hệ thống}
+  \label{fig:so-do}
+\end{sidewaysfigure}
+
+% ============================ 3. TRIỂN KHAI ===========================
+\section{TRIỂN KHAI}
+
+\subsection{Danh sách linh kiện điện tử}
+
+Danh sách dưới đây là linh kiện nhóm sử dụng trong sản phẩm, giá theo đơn hàng thực tế của nhóm tại cửa hàng Thế Giới IC (\href{http://thegioiic.com}{thegioiic.com}). Tổng chi phí thực tế có thể dao động do có thể thay đổi về số lượng dây cắm, v.v nhưng không đáng kể.
+
+{\small
+\begin{xltabular}{\textwidth}{|C{0.9cm}|Y|C{1.3cm}|C{1.6cm}|C{1.9cm}|C{2.2cm}|C{1.3cm}|}
+\hline
+\rowcolor{headbg}\hd{STT} & \multicolumn{1}{c|}{\hd{Tên linh kiện}} & \hd{Số lượng} & \hd{Giá (VNĐ)} & \hd{Hình ảnh} & \hd{Link tham khảo giá} & \hd{ID chức năng}\\ \hline
+\endfirsthead
+\hline
+\rowcolor{headbg}\hd{STT} & \multicolumn{1}{c|}{\hd{Tên linh kiện}} & \hd{Số lượng} & \hd{Giá (VNĐ)} & \hd{Hình ảnh} & \hd{Link tham khảo giá} & \hd{ID chức năng}\\ \hline
+\endhead
+\hline
+\endfoot
+\endlastfoot
+1 & ESP32-DevKitC-32D Module WiFi Bluetooth 2.4GHz MicroUSB & 1 cái & 143.640 & \hinhnho{esp32} & \href{https://www.thegioiic.com/esp32-devkitc-32d-module-wifi-bluetooth-2-4ghz-microusb}{thegioiic.com} & 1–10\\ \hline
+2 & MQ-2 Mạch cảm biến khí Gas LPG Propane Hydrogen & 1 cái & 31.920 & \hinhnho{mq2} & \href{https://www.thegioiic.com/mq-2-mach-cam-bien-khi-gas-lpg-propane-hydrogen}{thegioiic.com} & 1\\ \hline
+5 & Module 1 Relay 5V kích mức cao/thấp & 1 cái & 15.960 & \hinhnho{relay} & \href{https://www.thegioiic.com/module-1-relay-5v-kich-muc-cao-thap}{thegioiic.com} & 2\\ \hline
+6 & Máy bơm chìm mini 5V 1.2–1.6 L/phút & 1 cái & 17.100 & \hinhnho{bom} & \href{https://www.thegioiic.com/may-bom-chim-mini-5v-1-2-1-6l-phut}{thegioiic.com} & 2\\ \hline
+8 & LM393 Mạch cảm biến hồng ngoại phát hiện lửa 4 chân & 1 cái & 10.080 & \hinhnho{lm393} & \href{https://www.thegioiic.com/lm393-mach-cam-bien-hong-ngoai-phat-hien-lua-4-chan}{thegioiic.com} & 3\\ \hline
+9 & TMB12A05 Buzzer active, còi chíp 12×9 mm 93 dB 5VDC & 1 cái & 4.560 & \hinhnho{buzzer} & \href{https://www.thegioiic.com/tmb12a05-buzzer-active-coi-chip-12x9mm-93db-xuyen-lo-5vdc}{thegioiic.com} & 3\\ \hline
+10 & DHT11 Mạch cảm biến nhiệt độ, độ ẩm & 1 cái & 19.380 & \hinhnho{dht11} & \href{https://www.thegioiic.com/dht11-mach-cam-bien-nhiet-do-do-am}{thegioiic.com} & 4\\ \hline
+11 & SG90 Động cơ servo 360°, 1.8 kg.cm, 4.8–6 V & 1 cái & 33.046 & \hinhnho{sg90} & \href{https://www.thegioiic.com/sg90-dong-co-servo-360-do-1-8-kg-cm-4-8-6-v}{thegioiic.com} & 5\\ \hline
+15 & Nguồn adapter 5V 2A đầu DC 5.5×2.1 mm & 1 cái & 31.920 & \hinhnho{adapter} & \href{https://www.thegioiic.com/nguon-adapter-5v-2a-dau-dc-5-5x2-1mm-dai-1m}{thegioiic.com} & 1–5\\ \hline
+16 & YX-5521 Đầu nối nguồn DC cái 5.5×2.1 mm hàn dây & 1 cái & 4.788 & \hinhnho{jack-dc} & \href{https://www.thegioiic.com/yx-5521-dau-noi-nguon-dc-cai-5-5x2-1mm-han-day}{thegioiic.com} & 1–5\\ \hline
+\multicolumn{3}{|c|}{\textbf{Tổng chi phí}} & \textbf{380.474 đ} & \multicolumn{3}{c|}{}\\ \hline
+\caption{Danh sách linh kiện điện tử}\label{tab:linhkien}\\
+\end{xltabular}
+}
+
+\subsection{Kế hoạch thực hiện}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|C{1.0cm}|L{7.8cm}|C{2.8cm}|C{2.6cm}|}
+\hline
+\rowcolor{headbg}\hd{ID} & \multicolumn{1}{c|}{\hd{Chức năng / công việc}} & \hd{Thời gian (dự kiến)} & \hd{Phân công}\\ \hline
+– & Chuẩn bị: mua linh kiện, tạo broker EMQX, cluster MongoDB Atlas, repo Git chung; topic MQTT và cấu trúc dữ liệu & 1 tuần & Cả nhóm\\ \hline
+3 & Cảm biến lửa → ESP32 → buzzer & 2 ngày & Bảo\\ \hline
+1 & MQ-2 → ESP32 → MQTT → Node-RED → web (gồm hiệu chuẩn ngưỡng khói) & 3 ngày & Thu\\ \hline
+2 & Web → Node-RED → MQTT → ESP32 → relay → bơm (kèm xác nhận ack) & 3 ngày & Bảo\\ \hline
+4 & DHT11 → ESP32 → MQTT → Node-RED → web & 2 ngày & Thu\\ \hline
+9 & Đăng ký, đăng nhập, tài khoản lưu trong MongoDB Atlas & 2 ngày & Bảo\\ \hline
+5 & Web → ESP32 → servo mở/đóng cửa thoát hiểm & 3 ngày & Bảo\\ \hline
+6 & Lưu dữ liệu cảm biến lên MongoDB Atlas theo thời gian & 2 ngày & Thu\\ \hline
+– & Ghép firmware ESP32 thành một chương trình, gộp flow Node-RED trong cùng project & 1 tuần & Cả nhóm\\ \hline
+8 & Thông báo cháy về điện thoại qua Discord & 2 ngày & Thu\\ \hline
+7 & Lấy dữ liệu từ Atlas, vẽ biểu đồ trên web & 3 ngày & Bảo\\ \hline
+10 & AI/DS tự xây dựng: hồi quy tuyến tính, z-score, điểm nguy cơ & 3 ngày & Thu\\ \hline
+– & Đóng hộp, đi dây, kiểm thử toàn hệ thống, quay video demo, viết báo cáo & 1 tuần & Cả nhóm\\ \hline
+\end{tabular}
+\caption{Kế hoạch thực hiện và phân công}
+\label{tab:kehoach}
+\end{table}
+
+% ============================ 4. TỔNG KẾT =============================
+\section{TỔNG KẾT}
+
+Dựa trên Bảng 1 và Bảng 3, điểm dự kiến của mỗi thành viên như sau:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|C{1.0cm}|C{2.0cm}|C{2.0cm}|C{2.4cm}|C{2.0cm}|C{2.0cm}|C{1.4cm}|}
+\hline
+\rowcolor{headbg}\hd{STT} & \hd{Tên thành viên} & \hd{Điểm cơ bản} & \hd{Điểm nâng cao} & \hd{Điểm làm nhóm} & \hd{Điểm báo cáo} & \hd{Tổng}\\ \hline
+1 & Bảo & 4.0(ID 2) & \makecell{6.0\\(ID 3, 5, 7, 9)} & 1.0 & 1.0 & 12.0\\ \hline
+2 & Thu & 4.0(ID 1) & \makecell{6.0\\(ID 4, 6, 8, 10)} & 1.0 & 1.0 & 12.0\\ \hline
+\end{tabular}
+\caption{Điểm dự kiến của từng thành viên}
+\label{tab:diem}
+\end{table}
+
+\end{document}
