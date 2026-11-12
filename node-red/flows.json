@@ -1,0 +1,846 @@
+[
+    {
+        "id": "2fb8805cb013941d",
+        "type": "tab",
+        "label": "Cảm biến",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "0331292efb611d1d",
+        "type": "tab",
+        "label": "Cảnh báo",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "5d0a10d51fc9e843",
+        "type": "tab",
+        "label": "Cloud",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "994e6342ed320056",
+        "type": "ui-base",
+        "name": "My Dashboard",
+        "path": "/dashboard",
+        "appIcon": "",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "headerContent": "page",
+        "navigationStyle": "default",
+        "titleBarStyle": "default",
+        "showReconnectNotification": true,
+        "notificationDisplayTime": 1,
+        "showDisconnectNotification": true,
+        "allowInstall": false
+    },
+    {
+        "id": "d54308d10463a179",
+        "type": "ui-theme",
+        "name": "Default Theme",
+        "colors": {
+            "surface": "#fcfcfd",
+            "primary": "#0d74ce",
+            "bgPage": "#f9f9fb",
+            "groupBg": "#ffffff",
+            "groupOutline": "#d9d9e0"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
+    },
+    {
+        "id": "f68e9d9525b26240",
+        "type": "ui-page",
+        "name": "Dashboard",
+        "ui": "994e6342ed320056",
+        "path": "/dashboard",
+        "icon": "home",
+        "layout": "grid",
+        "theme": "d54308d10463a179",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "tabs": [],
+        "order": 1,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "de517bc6b3101e33",
+        "type": "ui-group",
+        "name": "Cảm biến",
+        "page": "f68e9d9525b26240",
+        "width": 6,
+        "height": 1,
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default",
+        "keepLoaded": false,
+        "tab": ""
+    },
+    {
+        "id": "2de32da92d8edeec",
+        "type": "tls-config",
+        "name": "EMQX TLS",
+        "certType": "files",
+        "cert": "",
+        "key": "",
+        "p12": "",
+        "p12name": "",
+        "ca": "",
+        "certname": "",
+        "keyname": "",
+        "caname": "",
+        "servername": "",
+        "verifyservercert": true,
+        "alpnprotocol": "",
+        "certEnv": "",
+        "keyEnv": "",
+        "caEnv": ""
+    },
+    {
+        "id": "3151730571181b2b",
+        "type": "mqtt-broker",
+        "name": "EMQX",
+        "broker": "fd061dd2.ala.asia-southeast1.emqxsl.com",
+        "port": "8883",
+        "tls": "2de32da92d8edeec",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": true,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "62d3f76681851fe1",
+        "type": "mongodb4-client",
+        "name": "",
+        "protocol": "mongodb+srv",
+        "hostname": "cluster0.bt2ld9f.mongodb.net",
+        "port": "",
+        "dbName": "smartfire",
+        "appName": "",
+        "authSource": "",
+        "authMechanism": "DEFAULT",
+        "tls": false,
+        "tlsCAFile": "",
+        "tlsCertificateKeyFile": "",
+        "tlsInsecure": false,
+        "connectTimeoutMS": "30000",
+        "socketTimeoutMS": "0",
+        "minPoolSize": "0",
+        "maxPoolSize": "100",
+        "maxIdleTimeMS": "0",
+        "uri": "",
+        "advanced": "{}",
+        "uriTabActive": "tab-uri-simple"
+    },
+    {
+        "id": "c3bd2e84cd7abeb1",
+        "type": "mqtt in",
+        "z": "2fb8805cb013941d",
+        "name": "Khói",
+        "topic": "nhom20/fire/smoke",
+        "qos": "1",
+        "datatype": "json",
+        "broker": "3151730571181b2b",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 230,
+        "y": 200,
+        "wires": [
+            [
+                "f63354f1ced7cdc7",
+                "0540242564ba8ba6"
+            ]
+        ]
+    },
+    {
+        "id": "f63354f1ced7cdc7",
+        "type": "function",
+        "z": "2fb8805cb013941d",
+        "name": "Tách khói",
+        "func": "// fn_tach_khoi.js\nconst { mv, level } = msg.payload;\nconst style = {\n    WARMUP: ['gray', 'Đang nung nóng'],\n    SAFE: ['green', 'An toàn'],\n    WARN: ['orange', 'Cảnh báo'],\n    DANGER: ['red', 'NGUY HIỂM'],\n}[level] || ['gray', 'Không rõ'];\nreturn [\n    { payload: mv },\n    { payload: `<b style=\"color:${style[0]}\">${style[1]}</b>` },\n];",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 200,
+        "wires": [
+            [
+                "b0b5c93e48d2304a"
+            ],
+            [
+                "6c57976b7b432d29"
+            ]
+        ]
+    },
+    {
+        "id": "b0b5c93e48d2304a",
+        "type": "ui-gauge",
+        "z": "2fb8805cb013941d",
+        "name": "Khói (mV)",
+        "group": "de517bc6b3101e33",
+        "order": 5,
+        "value": "payload",
+        "valueType": "msg",
+        "width": "4",
+        "height": "4",
+        "gtype": "gauge-34",
+        "gstyle": "needle",
+        "title": "Khói (mV)",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "mV",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#5cd65c",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "600",
+                "color": "#ffc800",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "1200",
+                "color": "#ea5353",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": 0,
+        "max": "3300",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 600,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6c57976b7b432d29",
+        "type": "ui-text",
+        "z": "2fb8805cb013941d",
+        "group": "de517bc6b3101e33",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "name": "Trạng thái",
+        "label": "Trạng thái",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "x": 600,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "0540242564ba8ba6",
+        "type": "debug",
+        "z": "2fb8805cb013941d",
+        "name": "debug-khoi",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 410,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "e1c4f541f7ab88d8",
+        "type": "mqtt in",
+        "z": "2fb8805cb013941d",
+        "name": "Nhiệt độ, Độ ẩm",
+        "topic": "nhom20/fire/dht",
+        "qos": "1",
+        "datatype": "json",
+        "broker": "3151730571181b2b",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 200,
+        "y": 400,
+        "wires": [
+            [
+                "793ee312627248b7"
+            ]
+        ]
+    },
+    {
+        "id": "793ee312627248b7",
+        "type": "function",
+        "z": "2fb8805cb013941d",
+        "name": "Tách DHT",
+        "func": "// fn_tach_dht.js\nreturn [{ payload: msg.payload.t }, { payload: msg.payload.h }];",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 400,
+        "wires": [
+            [
+                "ffeb24c536fae4d8"
+            ],
+            [
+                "0d57f61940476118"
+            ]
+        ]
+    },
+    {
+        "id": "ffeb24c536fae4d8",
+        "type": "ui-gauge",
+        "z": "2fb8805cb013941d",
+        "name": "Nhiệt độ (°C)",
+        "group": "de517bc6b3101e33",
+        "order": 3,
+        "value": "payload",
+        "valueType": "msg",
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-half",
+        "gstyle": "rounded",
+        "title": "Nhiệt độ (°C)",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "°C",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#5cd65c",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "40",
+                "color": "#ffc800",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "45",
+                "color": "#ea5353",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": 0,
+        "max": "50",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 590,
+        "y": 360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0d57f61940476118",
+        "type": "ui-gauge",
+        "z": "2fb8805cb013941d",
+        "name": "Độ ẩm (%)",
+        "group": "de517bc6b3101e33",
+        "order": 2,
+        "value": "payload",
+        "valueType": "msg",
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-half",
+        "gstyle": "rounded",
+        "title": "Độ ẩm (%)",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "%",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#ef5350",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "20",
+                "color": "#ff9800",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "40",
+                "color": "#ffca28",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "60",
+                "color": "#66bb6a",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "80",
+                "color": "#26a69a",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": 0,
+        "max": "100",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 590,
+        "y": 440,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "2172b06fe87cbca8",
+        "type": "mqtt in",
+        "z": "2fb8805cb013941d",
+        "name": "Trạng thái",
+        "topic": "nhom20/fire/status",
+        "qos": "2",
+        "datatype": "utf8",
+        "broker": "3151730571181b2b",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 220,
+        "y": 520,
+        "wires": [
+            [
+                "4cf1e27ffc351318"
+            ]
+        ]
+    },
+    {
+        "id": "4cf1e27ffc351318",
+        "type": "ui-text",
+        "z": "2fb8805cb013941d",
+        "group": "de517bc6b3101e33",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "Thiết bị",
+        "label": "Thiết bị",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "x": 420,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "0359369889649630",
+        "type": "mqtt in",
+        "z": "0331292efb611d1d",
+        "name": "Khói",
+        "topic": "nhom20/fire/smoke",
+        "qos": "1",
+        "datatype": "json",
+        "broker": "3151730571181b2b",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 190,
+        "y": 140,
+        "wires": [
+            [
+                "1b91ea9f673609bb"
+            ]
+        ]
+    },
+    {
+        "id": "0fe517637652b070",
+        "type": "mqtt in",
+        "z": "0331292efb611d1d",
+        "name": "DHT",
+        "topic": "nhom20/fire/dht",
+        "qos": "1",
+        "datatype": "json",
+        "broker": "3151730571181b2b",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 190,
+        "y": 240,
+        "wires": [
+            [
+                "1b91ea9f673609bb"
+            ]
+        ]
+    },
+    {
+        "id": "1b91ea9f673609bb",
+        "type": "function",
+        "z": "0331292efb611d1d",
+        "name": "Xét ngưỡng",
+        "func": "// fn_xet_nguong.js\nconst TEMP_ALARM = 45;   // độ C; 50 là giới hạn đo của DHT11\n\nconst p = msg.payload;\nlet text = null;\nif (msg.topic.endsWith('/smoke') && p.level === 'DANGER') {\n    text = `CẢNH BÁO KHÓI: ${p.mv} mV`;\n} else if (msg.topic.endsWith('/dht') && p.t >= TEMP_ALARM) {\n    text = `CẢNH BÁO NHIỆT ĐỘ: ${p.t} °C`;\n}\nif (!text) return null;  // không nguy hiểm thì dừng tại đây\nmsg.payload = text;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 370,
+        "y": 180,
+        "wires": [
+            [
+                "84d6873e4a6498cb",
+                "21f4cdd7871eb0a4"
+            ]
+        ]
+    },
+    {
+        "id": "84d6873e4a6498cb",
+        "type": "delay",
+        "z": "0331292efb611d1d",
+        "name": "",
+        "pauseType": "rate",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "minute",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": true,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 580,
+        "y": 180,
+        "wires": [
+            [
+                "f940bb9dfd9d2c22"
+            ]
+        ]
+    },
+    {
+        "id": "f940bb9dfd9d2c22",
+        "type": "function",
+        "z": "0331292efb611d1d",
+        "name": "Định dạng Discord",
+        "func": "// fn_dinh_dang_discord.js\nconst url = env.get('DISCORD_WEBHOOK');\nif (!url) {\n  node.error('Chưa có biến môi trường DISCORD_WEBHOOK');\n  return null;\n}\nmsg.url = url;\nmsg.payload = { username: 'Bao chay nhom 20', content: '🔥 ' + msg.payload };\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 810,
+        "y": 180,
+        "wires": [
+            [
+                "c1038386311d67eb"
+            ]
+        ]
+    },
+    {
+        "id": "c1038386311d67eb",
+        "type": "http request",
+        "z": "0331292efb611d1d",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1030,
+        "y": 180,
+        "wires": [
+            [
+                "1138ea03bf931580"
+            ]
+        ]
+    },
+    {
+        "id": "21f4cdd7871eb0a4",
+        "type": "debug",
+        "z": "0331292efb611d1d",
+        "name": "debug-xet-ngương",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 590,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "1138ea03bf931580",
+        "type": "debug",
+        "z": "0331292efb611d1d",
+        "name": "debug-http-request",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1250,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "c19a0152c878c0d4",
+        "type": "inject",
+        "z": "0331292efb611d1d",
+        "name": "Fake alarm",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "nhom20/fire/smoke",
+        "payload": "{\"mv\":1300,\"level\":\"DANGER\"}",
+        "payloadType": "json",
+        "x": 80,
+        "y": 180,
+        "wires": [
+            [
+                "1b91ea9f673609bb"
+            ]
+        ]
+    },
+    {
+        "id": "9099afc0824f7209",
+        "type": "mqtt in",
+        "z": "5d0a10d51fc9e843",
+        "name": "Khói",
+        "topic": "nhom20/fire/smoke",
+        "qos": "1",
+        "datatype": "json",
+        "broker": "3151730571181b2b",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 190,
+        "y": 140,
+        "wires": [
+            [
+                "5dc5dbc374f0e28a"
+            ]
+        ]
+    },
+    {
+        "id": "c859081b10a8a266",
+        "type": "mqtt in",
+        "z": "5d0a10d51fc9e843",
+        "name": "DHT",
+        "topic": "nhom20/fire/dht",
+        "qos": "1",
+        "datatype": "json",
+        "broker": "3151730571181b2b",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 190,
+        "y": 240,
+        "wires": [
+            [
+                "5dc5dbc374f0e28a"
+            ]
+        ]
+    },
+    {
+        "id": "5dc5dbc374f0e28a",
+        "type": "function",
+        "z": "5d0a10d51fc9e843",
+        "name": "Tạo document",
+        "func": "// fn_tao_document.js\nconst p = msg.payload;\nconst type = msg.topic.endsWith('/smoke') ? 'smoke' : 'dht';\nif (type === 'smoke' && p.level === 'WARMUP') return null;  // bỏ giai đoạn nung nóng\nconst doc = type === 'smoke'\n  ? { ts: new Date(), type, mv: p.mv, level: p.level }\n  : { ts: new Date(), type, t: p.t, h: p.h };\nmsg.payload = [doc];   // mongodb4 nhận một mảng tham số\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 180,
+        "wires": [
+            [
+                "9ab67d808a3d2e91"
+            ]
+        ]
+    },
+    {
+        "id": "9ab67d808a3d2e91",
+        "type": "mongodb4",
+        "z": "5d0a10d51fc9e843",
+        "clientNode": "62d3f76681851fe1",
+        "mode": "collection",
+        "collection": "sensor_logs_test",
+        "operation": "insertOne",
+        "output": "toArray",
+        "maxTimeMS": "0",
+        "handleDocId": false,
+        "name": "mongodb4",
+        "x": 610,
+        "y": 180,
+        "wires": [
+            [
+                "47e7731c418f7b3e"
+            ]
+        ]
+    },
+    {
+        "id": "47e7731c418f7b3e",
+        "type": "debug",
+        "z": "5d0a10d51fc9e843",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 800,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "c3947d4bae845f28",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "@flowfuse/node-red-dashboard": "1.35.0",
+            "node-red-contrib-mongodb4": "3.4.0"
+        }
+    }
+]
