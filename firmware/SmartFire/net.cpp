@@ -11,6 +11,26 @@ static PubSubClient mqtt(tlsClient);
 static unsigned long lastWifiTryMs = 0;
 static unsigned long lastMqttTryMs = 0;
 static char clientId[32];
+static NetCommandHandler commandHandler = nullptr;
+static NetConnectHandler connectHandler = nullptr;
+
+void netOnCommand(NetCommandHandler handler) { commandHandler = handler; }
+void netOnConnect(NetConnectHandler handler) { connectHandler = handler; }
+
+// PubSubClient gọi hàm này khi có tin ở topic đã subscribe.
+// topic và payload trỏ vào buffer nội bộ của PubSubClient, sẽ bị ghi đè nếu
+// trong lúc xử lý lại publish (gửi ack), nên chép cả hai ra trước.
+static void onMqttMessage(char* topic, byte* payload, unsigned int length) {
+  char topicBuf[64];
+  strncpy(topicBuf, topic, sizeof(topicBuf) - 1);
+  topicBuf[sizeof(topicBuf) - 1] = '\0';
+  char buf[128];
+  unsigned int n = length < sizeof(buf) - 1 ? length : sizeof(buf) - 1;
+  memcpy(buf, payload, n);
+  buf[n] = '\0';  // payload không có ký tự kết thúc chuỗi
+  Serial.printf("MQTT nhan [%s] %s\n", topicBuf, buf);
+  if (commandHandler) commandHandler(topicBuf, buf);
+}
 
 void netSetup() {
   WiFi.mode(WIFI_STA);
@@ -19,6 +39,7 @@ void netSetup() {
   tlsClient.setHandshakeTimeout(8);  // giây
   mqtt.setServer(MQTT_HOST, MQTT_PORT);
   mqtt.setSocketTimeout(5);
+  mqtt.setCallback(onMqttMessage);
   snprintf(clientId, sizeof(clientId), "esp32-%llx", ESP.getEfuseMac());  // ID không trùng
 }
 
@@ -28,7 +49,10 @@ static void tryConnectMqtt() {
   if (ok) {
     mqtt.publish(TOPIC_STATUS, "online", true);
     Serial.println("MQTT da ket noi");
-    // Bảo thêm mqtt.subscribe(...) tại đây
+    // QoS 1: lệnh bơm/cửa chắc chắn tới ESP32 (broker gửi lại nếu chưa nhận)
+    mqtt.subscribe(TOPIC_CMD_PUMP, 1);
+    mqtt.subscribe(TOPIC_CMD_DOOR, 1);
+    if (connectHandler) connectHandler();  // báo lại trạng thái bơm/cửa cho web
   } else {
     Serial.print("MQTT loi, state=");
     Serial.println(mqtt.state());

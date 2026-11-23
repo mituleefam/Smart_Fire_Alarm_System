@@ -24,6 +24,14 @@
         "env": []
     },
     {
+        "id": "27c1fdf833afa062",
+        "type": "tab",
+        "label": "Điều khiển",
+        "disabled": false,
+        "info": "Bảo: ID 2 (bơm qua relay) và ID 5 (servo cửa). Web gửi lệnh qua MQTT, chỉ cập nhật trạng thái khi ESP32 gửi ack.",
+        "env": []
+    },
+    {
         "id": "994e6342ed320056",
         "type": "ui-base",
         "name": "My Dashboard",
@@ -832,6 +840,329 @@
         "statusType": "auto",
         "x": 800,
         "y": 180,
+        "wires": []
+    },
+    {
+        "id": "7451b4aa921335d0",
+        "type": "ui-group",
+        "name": "Điều khiển",
+        "page": "f68e9d9525b26240",
+        "width": 6,
+        "height": 1,
+        "order": 2,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default",
+        "keepLoaded": false,
+        "tab": ""
+    },
+    {
+        "id": "08856476cb9ac100",
+        "type": "ui-switch",
+        "z": "27c1fdf833afa062",
+        "name": "Phun nước",
+        "label": "Phun nước",
+        "group": "7451b4aa921335d0",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "decouple": true,
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "className": "",
+        "layout": "row-spread",
+        "clickableArea": "switch",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "x": 170,
+        "y": 100,
+        "wires": [
+            [
+                "e48f2cc10988d132"
+            ]
+        ]
+    },
+    {
+        "id": "e48f2cc10988d132",
+        "type": "function",
+        "z": "27c1fdf833afa062",
+        "name": "Lệnh bơm",
+        "func": "// fn_lenh_bom.js\n// Công tắc chỉ đổi khi có ack (decouple), ở đây chỉ gửi lệnh\nconst on = msg.payload === true;\nreturn [\n    { payload: { state: on ? 'ON' : 'OFF' } },\n    { payload: '<i>Đang gửi lệnh…</i>' },\n];",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 100,
+        "wires": [
+            [
+                "1554585bcaee1d75"
+            ],
+            [
+                "083e73611f3f8f6f"
+            ]
+        ]
+    },
+    {
+        "id": "1554585bcaee1d75",
+        "z": "27c1fdf833afa062",
+        "name": "cmd/pump",
+        "topic": "nhom20/fire/cmd/pump",
+        "type": "mqtt out",
+        "qos": "1",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "3151730571181b2b",
+        "wires": [],
+        "x": 590,
+        "y": 80
+    },
+    {
+        "id": "083e73611f3f8f6f",
+        "type": "ui-text",
+        "z": "27c1fdf833afa062",
+        "group": "7451b4aa921335d0",
+        "order": 2,
+        "name": "Trạng thái bơm",
+        "label": "Trạng thái bơm",
+        "width": 0,
+        "height": 0,
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "wires": [],
+        "x": 600,
+        "y": 140
+    },
+    {
+        "id": "689aa6d3031d63e8",
+        "type": "ui-button",
+        "z": "27c1fdf833afa062",
+        "group": "7451b4aa921335d0",
+        "name": "Mở cửa",
+        "label": "Mở cửa",
+        "order": 3,
+        "payload": "{\"state\":\"OPEN\"}",
+        "width": 0,
+        "height": 0,
+        "emulateClick": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "iconPosition": "left",
+        "payloadType": "json",
+        "topic": "topic",
+        "topicType": "msg",
+        "buttonColor": "",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 160,
+        "y": 240,
+        "wires": [
+            [
+                "8860de5b616f6ba8"
+            ]
+        ]
+    },
+    {
+        "id": "7c0443996797586e",
+        "type": "ui-button",
+        "z": "27c1fdf833afa062",
+        "group": "7451b4aa921335d0",
+        "name": "Đóng cửa",
+        "label": "Đóng cửa",
+        "order": 4,
+        "payload": "{\"state\":\"CLOSED\"}",
+        "width": 0,
+        "height": 0,
+        "emulateClick": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "iconPosition": "left",
+        "payloadType": "json",
+        "topic": "topic",
+        "topicType": "msg",
+        "buttonColor": "",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 160,
+        "y": 300,
+        "wires": [
+            [
+                "8860de5b616f6ba8"
+            ]
+        ]
+    },
+    {
+        "id": "8860de5b616f6ba8",
+        "type": "function",
+        "z": "27c1fdf833afa062",
+        "name": "Lệnh cửa",
+        "func": "// fn_lenh_cua.js\nreturn [\n    { payload: msg.payload },\n    { payload: '<i>Đang gửi lệnh…</i>' },\n];",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 270,
+        "wires": [
+            [
+                "f90cdcb73818b848"
+            ],
+            [
+                "42d1a79aca2da9cd"
+            ]
+        ]
+    },
+    {
+        "id": "f90cdcb73818b848",
+        "z": "27c1fdf833afa062",
+        "name": "cmd/door",
+        "topic": "nhom20/fire/cmd/door",
+        "type": "mqtt out",
+        "qos": "1",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "3151730571181b2b",
+        "wires": [],
+        "x": 590,
+        "y": 250
+    },
+    {
+        "id": "42d1a79aca2da9cd",
+        "type": "ui-text",
+        "z": "27c1fdf833afa062",
+        "group": "7451b4aa921335d0",
+        "order": 5,
+        "name": "Trạng thái cửa",
+        "label": "Trạng thái cửa",
+        "width": 0,
+        "height": 0,
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "wires": [],
+        "x": 600,
+        "y": 310
+    },
+    {
+        "id": "3f1547cc0ddf6d79",
+        "type": "mqtt in",
+        "z": "27c1fdf833afa062",
+        "name": "Ack",
+        "topic": "nhom20/fire/ack",
+        "qos": "1",
+        "datatype": "json",
+        "broker": "3151730571181b2b",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 150,
+        "y": 420,
+        "wires": [
+            [
+                "173d2a5a3d78855c",
+                "495bf12b4234beca"
+            ]
+        ]
+    },
+    {
+        "id": "173d2a5a3d78855c",
+        "type": "function",
+        "z": "27c1fdf833afa062",
+        "name": "Tách ack",
+        "func": "// fn_tach_ack.js\n// Ra 1: trạng thái công tắc bơm, ra 2: chữ trạng thái bơm, ra 3: chữ trạng thái cửa\nconst { dev, state } = msg.payload || {};\nif (dev === 'pump') {\n    const on = state === 'ON';\n    return [\n        { payload: on },\n        { payload: on ? '<b style=\"color:green\">Đang bật</b>' : '<b style=\"color:gray\">Đang tắt</b>' },\n        null,\n    ];\n}\nif (dev === 'door') {\n    const open = state === 'OPEN';\n    return [null, null, { payload: open ? '<b style=\"color:green\">Đang mở</b>' : '<b style=\"color:gray\">Đang đóng</b>' }];\n}\nreturn null;",
+        "outputs": 3,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
+        "y": 420,
+        "wires": [
+            [
+                "08856476cb9ac100"
+            ],
+            [
+                "083e73611f3f8f6f"
+            ],
+            [
+                "42d1a79aca2da9cd"
+            ]
+        ]
+    },
+    {
+        "id": "495bf12b4234beca",
+        "type": "debug",
+        "z": "27c1fdf833afa062",
+        "name": "debug-ack",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 330,
+        "y": 480,
         "wires": []
     },
     {
